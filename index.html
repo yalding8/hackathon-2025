@@ -297,29 +297,63 @@
         /* Cards Grid */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
             margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
         }
 
         .card {
             background: var(--bg-alt);
             border-radius: 1.5rem;
-            padding: 2.5rem;
+            padding: 3rem 2.5rem;
             border: 1px solid var(--border);
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeInUp 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
         }
 
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             border-color: var(--accent);
         }
 
         .card-icon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1);
         }
 
         .card-title {
@@ -859,52 +893,45 @@
                 <span class="en-only">Challenges</span>
             </div>
             <h2 class="section-title">
-                <span class="zh-only">四个业务问题</span>
-                <span class="en-only">Four Business Challenges</span>
+                <span class="zh-only">三个业务问题</span>
+                <span class="en-only">Three Business Challenges</span>
             </h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <span class="zh-only">每队只能选择1个问题深度解答 · 每题最多5-6支队伍 · 先到先得</span>
+                <span class="en-only">Each team selects 1 challenge · Max 5-6 teams per challenge · First-come first-served</span>
+            </p>
             <div class="challenges-grid">
                 <div class="challenge-card">
                     <div class="challenge-number">01</div>
                     <h3 class="challenge-title">
-                        <span class="zh-only">挑战一</span>
-                        <span class="en-only">Challenge #1</span>
+                        <span class="zh-only">AI赋能新人培训 🎓</span>
+                        <span class="en-only">AI-Powered Onboarding 🎓</span>
                     </h3>
                     <p class="challenge-desc">
-                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
-                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
+                        <span class="zh-only">如何通过AI技术，优化新人入职培训中涉及业务和技巧方面的培训流程，让每一位新人能快速成为具备优秀业务能力的员工</span>
+                        <span class="en-only">Leverage AI to optimize onboarding training in business skills and techniques, enabling new hires to quickly become employees with excellent capabilities</span>
                     </p>
                 </div>
                 <div class="challenge-card">
                     <div class="challenge-number">02</div>
                     <h3 class="challenge-title">
-                        <span class="zh-only">挑战二</span>
-                        <span class="en-only">Challenge #2</span>
+                        <span class="zh-only">AI驱动内容质量监督 📱</span>
+                        <span class="en-only">AI Content Quality Supervision 📱</span>
                     </h3>
                     <p class="challenge-desc">
-                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
-                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
+                        <span class="zh-only">如何通过AI技术，解决运营管理团队需要人工检查社交媒体运营内容以及质量的问题，优化运营监督效率</span>
+                        <span class="en-only">Leverage AI to automate social media content quality review, reducing manual workload and optimizing operational supervision efficiency</span>
                     </p>
                 </div>
                 <div class="challenge-card">
                     <div class="challenge-number">03</div>
                     <h3 class="challenge-title">
-                        <span class="zh-only">挑战三</span>
-                        <span class="en-only">Challenge #3</span>
+                        <span class="zh-only">AI赋能房源营销传播 🏠</span>
+                        <span class="en-only">AI Property Marketing 🏠</span>
                     </h3>
                     <p class="challenge-desc">
-                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
-                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
-                    </p>
-                </div>
-                <div class="challenge-card">
-                    <div class="challenge-number">04</div>
-                    <h3 class="challenge-title">
-                        <span class="zh-only">挑战四</span>
-                        <span class="en-only">Challenge #4</span>
-                    </h3>
-                    <p class="challenge-desc">
-                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
-                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
+                        <span class="zh-only">如何通过AI技术，将uhomes.com网站的房源信息，通过各种图片、视频形式进行传播，优化该流程的效率</span>
+                        <span class="en-only">Leverage AI to transform uhomes.com property listings into engaging images and videos for multi-channel distribution, optimizing marketing efficiency</span>
                     </p>
                 </div>
             </div>
