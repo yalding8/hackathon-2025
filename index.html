@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>uhomes Hackathon 2025 | 异乡好居黑客松</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A0E27;
+            --accent: #6366F1;
+            --accent-light: #818CF8;
+            --gold: #F59E0B;
+            --bg: #FAFAFA;
+            --bg-alt: #FFFFFF;
+            --text: #1F2937;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 0.5rem;
+            border-radius: 100px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .lang-toggle button {
+            padding: 0.5rem 1.25rem;
+            border: none;
+            background: transparent;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 100px;
+            transition: all 0.3s ease;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .lang-toggle button.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0A0E27 0%, #1E293B 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            animation: float 15s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 30px) rotate(5deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-light);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 3vw, 2rem);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 100px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.5s forwards, bounce 2s infinite 1.5s;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section */
+        section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent), var(--gold));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            animation: fadeInRight 0.6s ease;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--bg);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--bg-alt);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Prizes */
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .prize-card {
+            background: linear-gradient(135deg, var(--bg-alt), #F9FAFB);
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .prize-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .prize-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .prize-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .prize-badge {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .prize-rank {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .prize-amount {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .prize-items {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Challenges */
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .challenge-card {
+            background: var(--primary);
+            color: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transition: transform 0.6s ease;
+        }
+
+        .challenge-card:hover::before {
+            transform: translate(-25%, -25%);
+        }
+
+        .challenge-number {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            font-weight: 900;
+            opacity: 0.1;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .challenge-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .challenge-desc {
+            opacity: 0.8;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        /* QR Section */
+        .qr-section {
+            background: linear-gradient(135deg, var(--primary), #1E293B);
+            color: white;
+            border-radius: 2rem;
+            padding: 5rem 3rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .qr-item {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .qr-box {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 1rem;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-box:hover {
+            transform: scale(1.05);
+        }
+
+        .qr-label {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .qr-desc {
+            opacity: 0.7;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Language-specific content */
+        [lang="en"] .zh-only,
+        [lang="zh-CN"] .en-only {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .lang-toggle {
+                top: 1rem;
+                right: 1rem;
+            }
+
+            section {
+                padding: 5rem 0;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .timeline-item::before {
+                left: -2.4rem;
+            }
+
+            .qr-section {
+                padding: 3rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="zh-CN">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">
+                <span class="zh-only">异乡好居 · 春节特别版</span>
+                <span class="en-only">uhomes · Spring Festival Edition</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="zh-only">黑客松<br>2025</span>
+                <span class="en-only">Hackathon<br>2025</span>
+            </h1>
+            <p class="hero-subtitle">
+                <span class="zh-only">让创意在春节绽放</span>
+                <span class="en-only">Let Ideas Bloom This Spring</span>
+            </p>
+            <div class="hero-cta">
+                <a href="#register" class="btn btn-primary">
+                    <span class="zh-only">立即报名</span>
+                    <span class="en-only">Register Now</span>
+                </a>
+                <a href="#about" class="btn btn-secondary">
+                    <span class="zh-only">了解详情</span>
+                    <span class="en-only">Learn More</span>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-label">
+                <span class="zh-only">活动介绍</span>
+                <span class="en-only">About</span>
+            </div>
+            <h2 class="section-title">
+                <span class="zh-only">用技术解决真实问题<br>让创意变成现实</span>
+                <span class="en-only">Solve Real Problems<br>Turn Ideas Into Reality</span>
+            </h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3 class="card-title">
+                        <span class="zh-only">真实业务挑战</span>
+                        <span class="en-only">Real Business Challenges</span>
+                    </h3>
+                    <p class="card-text">
+                        <span class="zh-only">解决公司面临的真实业务问题，你的方案可能真正改变公司业务</span>
+                        <span class="en-only">Solve real business problems - your solution could truly transform our business</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌍</div>
+                    <h3 class="card-title">
+                        <span class="zh-only">全球协作</span>
+                        <span class="en-only">Global Collaboration</span>
+                    </h3>
+                    <p class="card-text">
+                        <span class="zh-only">与国内外同事跨地域组队，不限制跨部门协作，支持远程参与</span>
+                        <span class="en-only">Form cross-regional teams with colleagues worldwide, remote participation supported</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">
+                        <span class="zh-only">展示舞台</span>
+                        <span class="en-only">Showcase Platform</span>
+                    </h3>
+                    <p class="card-text">
+                        <span class="zh-only">向公司高层展示你的创新能力，优秀方案将投入生产使用</span>
+                        <span class="en-only">Present your innovative ideas to leadership - great solutions go to production</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h3 class="card-title">
+                        <span class="zh-only">学习成长</span>
+                        <span class="en-only">Learning & Growth</span>
+                    </h3>
+                    <p class="card-text">
+                        <span class="zh-only">接触新技术、新领域的绝佳机会，提升技能的同时收获团队协作经验</span>
+                        <span class="en-only">Perfect opportunity to explore new technologies while gaining team collaboration experience</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section style="background: var(--bg-alt);">
+        <div class="container">
+            <div class="section-label">
+                <span class="zh-only">活动时间</span>
+                <span class="en-only">Timeline</span>
+            </div>
+            <h2 class="section-title">
+                <span class="zh-only">关键时间节点</span>
+                <span class="en-only">Key Milestones</span>
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="zh-only">2月中旬</span>
+                        <span class="en-only">Mid-February</span>
+                    </div>
+                    <h3 class="timeline-title">
+                        <span class="zh-only">🚀 活动启动</span>
+                        <span class="en-only">🚀 Launch</span>
+                    </h3>
+                    <p class="timeline-desc">
+                        <span class="zh-only">发布活动网站，开放报名，公开4个业务问题</span>
+                        <span class="en-only">Release event website, open registration, publish 4 business challenges</span>
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="zh-only">2月中旬 - 2月28日</span>
+                        <span class="en-only">Mid-Feb - Feb 28</span>
+                    </div>
+                    <h3 class="timeline-title">
+                        <span class="zh-only">🔥 开发期</span>
+                        <span class="en-only">🔥 Development Period</span>
+                    </h3>
+                    <p class="timeline-desc">
+                        <span class="zh-only">春节假期及节后利用业余时间开发MVP</span>
+                        <span class="en-only">Develop MVP during Spring Festival holiday and spare time after</span>
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="zh-only">2月28日 23:59</span>
+                        <span class="en-only">Feb 28, 23:59</span>
+                    </div>
+                    <h3 class="timeline-title">
+                        <span class="zh-only">📤 提交截止</span>
+                        <span class="en-only">📤 Submission Deadline</span>
+                    </h3>
+                    <p class="timeline-desc">
+                        <span class="zh-only">所有参赛队伍提交作品（文档+代码）</span>
+                        <span class="en-only">All teams submit their work (documentation + code)</span>
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="zh-only">3月初</span>
+                        <span class="en-only">Early March</span>
+                    </div>
+                    <h3 class="timeline-title">
+                        <span class="zh-only">📊 初评阶段</span>
+                        <span class="en-only">📊 Preliminary Round</span>
+                    </h3>
+                    <p class="timeline-desc">
+                        <span class="zh-only">评审团筛选，确定决赛队伍（6队）</span>
+                        <span class="en-only">Jury screening, finalize 6 finalist teams</span>
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="zh-only">3月5日</span>
+                        <span class="en-only">March 5</span>
+                    </div>
+                    <h3 class="timeline-title">
+                        <span class="zh-only">🏆 决赛答辩 + 颁奖</span>
+                        <span class="en-only">🏆 Finals + Awards</span>
+                    </h3>
+                    <p class="timeline-desc">
+                        <span class="zh-only">多地区同步，现场演示+评委打分，公布获奖名单</span>
+                        <span class="en-only">Multi-location synchronized presentations, judging, and award ceremony</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prizes Section -->
+    <section>
+        <div class="container">
+            <div class="section-label">
+                <span class="zh-only">奖项设置</span>
+                <span class="en-only">Awards</span>
+            </div>
+            <h2 class="section-title">
+                <span class="zh-only">丰厚奖金与奖品</span>
+                <span class="en-only">Generous Prizes</span>
+            </h2>
+            <div class="prizes-grid">
+                <div class="prize-card">
+                    <div class="prize-badge">🥇</div>
+                    <h3 class="prize-rank">
+                        <span class="zh-only">一等奖</span>
+                        <span class="en-only">First Prize</span>
+                    </h3>
+                    <div class="prize-amount">¥3,000</div>
+                    <div class="prize-items">
+                        <span class="zh-only">+ 大模型年卡 × 3</span>
+                        <span class="en-only">+ AI Annual Sub × 3</span>
+                        <br>
+                        <span class="zh-only" style="opacity: 0.6; font-size: 0.85rem;">1个团队</span>
+                        <span class="en-only" style="opacity: 0.6; font-size: 0.85rem;">1 team</span>
+                    </div>
+                </div>
+                <div class="prize-card">
+                    <div class="prize-badge">🥈</div>
+                    <h3 class="prize-rank">
+                        <span class="zh-only">二等奖</span>
+                        <span class="en-only">Second Prize</span>
+                    </h3>
+                    <div class="prize-amount">¥2,000</div>
+                    <div class="prize-items">
+                        <span class="zh-only">+ 大模型季度卡 × 3</span>
+                        <span class="en-only">+ AI Quarterly Sub × 3</span>
+                        <br>
+                        <span class="zh-only" style="opacity: 0.6; font-size: 0.85rem;">1个团队</span>
+                        <span class="en-only" style="opacity: 0.6; font-size: 0.85rem;">1 team</span>
+                    </div>
+                </div>
+                <div class="prize-card">
+                    <div class="prize-badge">🥉</div>
+                    <h3 class="prize-rank">
+                        <span class="zh-only">三等奖</span>
+                        <span class="en-only">Third Prize</span>
+                    </h3>
+                    <div class="prize-amount">¥1,000</div>
+                    <div class="prize-items">
+                        <span class="zh-only">+ 大模型月卡 × 3</span>
+                        <span class="en-only">+ AI Monthly Sub × 3</span>
+                        <br>
+                        <span class="zh-only" style="opacity: 0.6; font-size: 0.85rem;">2个团队</span>
+                        <span class="en-only" style="opacity: 0.6; font-size: 0.85rem;">2 teams</span>
+                    </div>
+                </div>
+                <div class="prize-card">
+                    <div class="prize-badge">⭐</div>
+                    <h3 class="prize-rank">
+                        <span class="zh-only">优秀团队</span>
+                        <span class="en-only">Excellence Award</span>
+                    </h3>
+                    <div class="prize-amount" style="font-size: 2rem;">
+                        <span class="zh-only">荣誉</span>
+                        <span class="en-only">Honor</span>
+                    </div>
+                    <div class="prize-items">
+                        <span class="zh-only">大模型月卡 × 3</span>
+                        <span class="en-only">AI Monthly Sub × 3</span>
+                        <br>
+                        <span class="zh-only" style="opacity: 0.6; font-size: 0.85rem;">2个团队</span>
+                        <span class="en-only" style="opacity: 0.6; font-size: 0.85rem;">2 teams</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges Section -->
+    <section style="background: var(--bg-alt);">
+        <div class="container">
+            <div class="section-label">
+                <span class="zh-only">业务挑战</span>
+                <span class="en-only">Challenges</span>
+            </div>
+            <h2 class="section-title">
+                <span class="zh-only">四个业务问题</span>
+                <span class="en-only">Four Business Challenges</span>
+            </h2>
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <div class="challenge-number">01</div>
+                    <h3 class="challenge-title">
+                        <span class="zh-only">挑战一</span>
+                        <span class="en-only">Challenge #1</span>
+                    </h3>
+                    <p class="challenge-desc">
+                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
+                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
+                    </p>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-number">02</div>
+                    <h3 class="challenge-title">
+                        <span class="zh-only">挑战二</span>
+                        <span class="en-only">Challenge #2</span>
+                    </h3>
+                    <p class="challenge-desc">
+                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
+                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
+                    </p>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-number">03</div>
+                    <h3 class="challenge-title">
+                        <span class="zh-only">挑战三</span>
+                        <span class="en-only">Challenge #3</span>
+                    </h3>
+                    <p class="challenge-desc">
+                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
+                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
+                    </p>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-number">04</div>
+                    <h3 class="challenge-title">
+                        <span class="zh-only">挑战四</span>
+                        <span class="en-only">Challenge #4</span>
+                    </h3>
+                    <p class="challenge-desc">
+                        <span class="zh-only">业务问题描述将在此展示，敬请期待组委会发布具体挑战内容</span>
+                        <span class="en-only">Challenge description will be published here. Stay tuned for details from the organizing committee</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Register Section -->
+    <section id="register">
+        <div class="container">
+            <div class="qr-section">
+                <div class="section-label" style="color: rgba(255,255,255,0.7);">
+                    <span class="zh-only">立即参与</span>
+                    <span class="en-only">Get Involved</span>
+                </div>
+                <h2 class="section-title" style="color: white; margin-bottom: 1rem;">
+                    <span class="zh-only">扫码报名参加</span>
+                    <span class="en-only">Scan to Register</span>
+                </h2>
+                <p style="opacity: 0.7; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <span class="zh-only">加入活动群，与全球同事交流创意；填写报名表单，正式参与黑客松挑战</span>
+                    <span class="en-only">Join the event group to connect with colleagues worldwide; complete the registration form to officially participate</span>
+                </p>
+                <div class="qr-grid">
+                    <div class="qr-item">
+                        <div class="qr-box">
+                            <span class="zh-only">企业微信群<br>二维码</span>
+                            <span class="en-only">WeChat Work<br>Group QR Code</span>
+                        </div>
+                        <div class="qr-label">
+                            <span class="zh-only">加入活动交流群</span>
+                            <span class="en-only">Join Event Group</span>
+                        </div>
+                        <div class="qr-desc">
+                            <span class="zh-only">扫码加入企业微信活动群</span>
+                            <span class="en-only">Scan to join WeChat Work group</span>
+                        </div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-box">
+                            <span class="zh-only">报名表单<br>二维码</span>
+                            <span class="en-only">Registration<br>Form QR Code</span>
+                        </div>
+                        <div class="qr-label">
+                            <span class="zh-only">填写报名表单</span>
+                            <span class="en-only">Complete Registration</span>
+                        </div>
+                        <div class="qr-desc">
+                            <span class="zh-only">扫码填写报名信息</span>
+                            <span class="en-only">Scan to fill registration form</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="zh-only">© 2026 异乡好居 黑客松组委会 · 产品研发部</p>
+            <p class="en-only">© 2026 uhomes Hackathon Organizing Committee · Product & R&D Department</p>
+            <p style="margin-top: 1rem; opacity: 0.5; font-size: 0.875rem;">
+                <span class="zh-only">让创意在春节绽放 🚀</span>
+                <span class="en-only">Let Ideas Bloom This Spring 🚀</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const html = document.documentElement;
+
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                html.setAttribute('lang', lang);
+                langButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.card, .prize-card, .challenge-card, .timeline-item, .qr-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
